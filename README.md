@@ -12,12 +12,12 @@ Las tiendas de abarrotes son pequeños o medianos negocios que ofrecen una gran 
 Colocandonos en el contexto proporcionado por el proyecto 
 >El sistema es un ERP de una empresa de tiendas de abarrotes la cual tiene 4 sucursalesen la ciudad (Sucursal Lerma, Zinacantepec, Toluca centro y Metepec). El desarrollo debe ser un sistema integral donde se incluyan todas las áreas y los procesos de negocio de la empresa (ventas, control de inventarios, entrega de productos, finanzas, facturación, recursos humanos). No necesariamente en alguna de las sucursales estarán las bases de datos <sup>2</sup>
 
-obtenemos una guia para nuestra investigación, a continuación analizaremos los distintos puntos tocados en la cita anterior
+obtenemos una guia para nuestra investigación, principalmente enfocado a entender cual es el flujo de trabajo de una tienda de abarrotes.
+
+Investigando, en internet, y mediante experiencias personales, entre los que nos encontramos desarrollando este proyecto encontramos que las actividades de la tienda, giran, la mayoria, alrededor del inventario.
 
 ### Inventario
 El inventario es el conjunto de artículos o materiales que un negocio tiene la intención de vender a los clientes con fines lucrativos. 
-
-La gestión de inventario, un elemento crítico de la cadena de suministro, es el seguimiento del inventario desde el momento de su fabricación hasta los almacenes, y desde estas instalaciones hasta el punto de venta. 
 
 El objetivo de la gestión de inventario es tener los productos correctos en el lugar adecuado y en el momento preciso. Esto requiere visibilidad de inventario: saber cuándo se debe hacer los pedidos, cuánto se debe pedir y dónde almacenar las existencias.
 
@@ -25,31 +25,38 @@ El objetivo de la gestión de inventario es tener los productos correctos en el 
 - Almacenamiento de inventario: el inventario se almacena hasta que se necesita. Los bienes o materiales se transfieren a través de su red, y hasta que estén listos para su envío.
 - Beneficio del inventario: Se controla la cantidad de producto a la venta. Las mercancías acabadas son liberadas para tramitar los pedidos. Los productos son enviados a los clientes.
 
-Dentro del inventario encontramos muchas entidades relacionadas, cómo `articulo`, `lugar`, `inventario`,`movimiento`, `cliente`, `empleado`, y `proveedor`
+Dentro del inventario encontramos muchas entidades relacionadas,una de ellas es el `articulo` nos interesa identificarlo, conocer su nombre, descripción, precio en que se compra, precio a la venta, palabras clave, categoria a la que pertenece, en qué tiendas/almacenes se encuentra y la cantidad que hay en cada uno, un registro de cuando se reabastece y un registro de cada venta de dicho producto.
+
+Cada que se realiza una `venta` se actualiza la cantidad de productos en inventario, de cada `venta`, nos interesa conocer los articulos involucrados, así como la cantidad de cada uno, el total, la tienda en que se realizó la compra, la fecha, si el pago fue en efectivo, transferencia o con tarjeta, así como los datos del cliente.
+
+# ...
+
+ obteniendo el siguiente diagrama conceptual:
 
 ```mermaid
 flowchart TD
     ARTICULO-->INVENTARIO;
     LUGAR-->INVENTARIO;      
-    subgraph movimientos
+    subgraph movimiento
         direction TB
         COMPRA;
         VENTA;
         TRASLADO;
     end
-    subgraph sujetos
+    subgraph sujeto
+
         CLIENTE
         EMPLEADO
         PROVEEDOR
     end
     PROVEEDOR-->COMPRA;
     EMPLEADO-->VENTA;
-    EMPLEADO<-->TRASLADO
+    EMPLEADO-->TRASLADO
     CLIENTE-->VENTA;
-    ARTICULO-->movimientos;
-    LUGAR-->movimientos;
-    
+    ARTICULO-->movimiento;
+    LUGAR-->movimiento; 
 ```
+
 
 ## Referencias
 1. [Crehana | Blog | Negocios | ¿Cómo poner una tienda de abarrotes](https://www.crehana.com/blog/negocios/como-poner-tienda-abarrotes/)
