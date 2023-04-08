@@ -28,14 +28,19 @@ El objetivo de la gestión de inventario es tener los productos correctos en el 
 Dentro del inventario encontramos muchas entidades relacionadas, cómo `articulo`, `lugar`, `inventario`,`movimiento`, `cliente`, `empleado`, y `proveedor`
 
 ```mermaid
-graph TD;
+flowchart TD
     ARTICULO-->INVENTARIO;
-    INVENTARIO-->LUGAR;
+    ARTICULO-->COMPRA;
+    ARTICULO-->VENTA;
+    ARTICULO-->TRASLADO;
+    LUGAR-->INVENTARIO;
     LUGAR-->TRASLADO;
     LUGAR-->COMPRA;
     LUGAR-->VENTA;
-    COMPRA-->PROVEEDOR
-    COMPRA-->ARTICULO
+    PROVEEDOR-->COMPRA;
+    EMPLEADO-->VENTA;
+    EMPLEADO<-->TRASLADO
+    CLIENTE-->VENTA;
 ```
 
 ## Referencias
