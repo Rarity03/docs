@@ -30,17 +30,25 @@ Dentro del inventario encontramos muchas entidades relacionadas, cómo `articulo
 ```mermaid
 flowchart TD
     ARTICULO-->INVENTARIO;
-    ARTICULO-->COMPRA;
-    ARTICULO-->VENTA;
-    ARTICULO-->TRASLADO;
-    LUGAR-->INVENTARIO;
-    LUGAR-->TRASLADO;
-    LUGAR-->COMPRA;
-    LUGAR-->VENTA;
+    LUGAR-->INVENTARIO;      
+    subgraph movimientos
+        direction TB
+        COMPRA;
+        VENTA;
+        TRASLADO;
+    end
+    subgraph sujetos
+        CLIENTE
+        EMPLEADO
+        PROVEEDOR
+    end
     PROVEEDOR-->COMPRA;
     EMPLEADO-->VENTA;
     EMPLEADO<-->TRASLADO
     CLIENTE-->VENTA;
+    ARTICULO-->movimientos;
+    LUGAR-->movimientos;
+    
 ```
 
 ## Referencias
