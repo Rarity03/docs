@@ -29,10 +29,13 @@ Dentro del inventario encontramos muchas entidades relacionadas, cómo `articulo
 
 ```mermaid
 graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
+    ARTICULO-->INVENTARIO;
+    INVENTARIO-->LUGAR;
+    LUGAR-->TRASLADO;
+    LUGAR-->COMPRA;
+    LUGAR-->VENTA;
+    COMPRA-->PROVEEDOR
+    COMPRA-->ARTICULO
 ```
 
 ## Referencias
