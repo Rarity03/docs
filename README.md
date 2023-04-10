@@ -16,9 +16,23 @@ obtenemos una guia para nuestra investigación, principalmente enfocado a entend
 
 
 
-Una parte fundamental de los procesos de negocio es el control de inventario, en el cual encontramos distintas entidades relacionadas, la principal es el `articulo`, puesto que es la manipulación de este en que giran las acciones de la empresa.
+Las partes fundamentales del proceso de negocio son el control de inventario, recursos humanos y finanzas, las cuales se analizaran aisladamente para posteriormente unificarlas.
 
-Este `articulo` sera almacenado ya sea en alguna o en todas las tiendas u almacenes, este podra ser vendido, trasladado, reabastecido o perdido.
+## Inventario
+
+ El inventario es el conjunto de artículos o materiales que un negocio tiene la intención de vender a los clientes con fines lucrativos. 
+
+La gestión de inventario, un elemento crítico de la cadena de suministro, es el seguimiento del inventario desde el momento de su fabricación hasta los almacenes, y desde estas instalaciones hasta el punto de venta. 
+
+El objetivo de la gestión de inventario es tener los productos correctos en el lugar adecuado y en el momento preciso. Esto requiere visibilidad de inventario: saber cuándo se debe hacer los pedidos, cuánto se debe pedir y dónde almacenar las existencias.
+
+- Compra de inventario: los productos listos para la venta se compran y se entregan en el almacén o directamente en el punto de venta.
+- Almacenamiento de inventario: el inventario se almacena hasta que se necesita. Los bienes o materiales se transfieren a través de su red, y hasta que estén listos para su envío.
+- Beneficio del inventario: Se controla la cantidad de producto a la venta. Las mercancías acabadas son liberadas para tramitar los pedidos. Los productos son enviados a los clientes.
+
+En el inventario se encunetran distintas entidades relacionadas, la principal es el `articulo`, puesto que es la manipulación de este en que giran las acciones de la empresa.
+
+Este `articulo` sera almacenado ya sea en alguna o en todas las tiendas u almacenes, este podra ser vendido, trasladado, reabastecido o perdido, estas acciones las identificaremos como `movimientos`.
 
 Cuando se realiza una `venta` se realizará una `factura`, ya sea a publico en general o a un cliente en especifico, debemos realizar un registro de cada venta, esta operacion es de ingreso.
 
@@ -30,53 +44,24 @@ Una `devolución` se realiza, como ya se mencionó arriba, cuando un usuario dec
 
 Una `perdida` se da por dos motivos, que un producto se deba desechar, o, que un producto haya sido robado, esto representa perdidas para la empresa.
 
-Más adelante se analizará a detalle cada uno de estos movimientos.
-
-Otra parte fundamental es la gestion del recursos humanos, en esta se encuentran `sujetos`, los cales son `contratados`
-
-
-
 ```mermaid
-flowchart TD
-    LUGAR-->ARTICULO;    
-    subgraph sujeto
-        CLIENTE
-        EMPLEADO
-        PROVEEDOR
-    end
-
-    subgraph inventario
-        ARTICULO;
-      
-        subgraph movimiento
-            direction TB
-            REABASTECIMIENTO;
-            VENTA;
-            DESECHO;
-            TRASLADO;
-        end
-    end
-    PROVEEDOR-->REABASTECIMIENTO;
-    EMPLEADO-->VENTA;
-    EMPLEADO-->TRASLADO
-    CLIENTE-->VENTA;
-    ARTICULO-->movimiento;
-    LUGAR-->movimiento;
+graph TD;
+    LUGAR---ARTICULO;    
+    SUJETO---MOVIMIENTO;
+    ARTICULO---MOVIMIENTO;
+    LUGAR---MOVIMIENTO;
 ```
+Diagrama de relaciones generales entre entidades.
 
-### Inventario
-El inventario es el conjunto de artículos o materiales que un negocio tiene la intención de vender a los clientes con fines lucrativos. 
+Se procede a analizar individualmente cada entidad, con el fin de definir los atributos que cada una poseera, a ecepcion de los englobados en sujeto.
 
-El objetivo de la gestión de inventario es tener los productos correctos en el lugar adecuado y en el momento preciso. Esto requiere visibilidad de inventario: saber cuándo se debe hacer los pedidos, cuánto se debe pedir y dónde almacenar las existencias.
-
-- Compra de inventario: los productos listos para la venta se compran y se entregan en el almacén o directamente en el punto de venta.
-- Almacenamiento de inventario: el inventario se almacena hasta que se necesita. Los bienes o materiales se transfieren a través de su red, y hasta que estén listos para su envío.
-- Beneficio del inventario: Se controla la cantidad de producto a la venta. Las mercancías acabadas son liberadas para tramitar los pedidos. Los productos son enviados a los clientes.
+### Lugar 
+Por `LUGAR` nos referimos a la sucursal y/o almacen (si se da el caso) en que se encuentra un producto.
 
 
-
-
- nos interesa identificarlo, conocer su nombre, descripción, precio en que se compra, precio a la venta, palabras clave, categoria a la que pertenece, en qué tiendas/almacenes se encuentra y la cantidad que hay en cada uno, un registro de cuando se reabastece y un registro de cada venta de dicho producto.
+---
+### Articulo
+ Nos interesa identificarlo, conocer su nombre, descripción, precio en que se compra, precio a la venta, palabras clave, categoria a la que pertenece, en qué tiendas/almacenes se encuentra y la cantidad que hay en cada uno, un registro de cuando se reabastece y un registro de cada venta de dicho producto.
 
 ```mermaid
 flowchart LR
@@ -93,6 +78,17 @@ flowchart LR
     ARTICULO-->vent([ventas]);
 
 ```
+---
+### Movimientos
+--- 
+Es así 
+
+## Recursos humanos
+## Finanzas
+
+
+
+
 
 Cada que se realiza una `venta` se actualiza la cantidad de productos en inventario, de cada `venta`, nos interesa conocer los articulos involucrados, así como la cantidad de cada uno, el total, la tienda en que se realizó la compra, la fecha, si el pago fue en efectivo, transferencia o con tarjeta, así como los datos del `cliente` y el `empleado` que la concretó.
 
