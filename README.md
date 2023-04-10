@@ -14,7 +14,55 @@ Colocandonos en el contexto proporcionado por el proyecto
 
 obtenemos una guia para nuestra investigación, principalmente enfocado a entender cual es el flujo de trabajo de una tienda de abarrotes.
 
-Investigando, en internet, y mediante experiencias personales, entre los que nos encontramos desarrollando este proyecto encontramos que las actividades de la tienda, giran, la mayoria, alrededor del inventario.
+
+
+Una parte fundamental de los procesos de negocio es el control de inventario, en el cual encontramos distintas entidades relacionadas, la principal es el `articulo`, puesto que es la manipulación de este en que giran las acciones de la empresa.
+
+Este `articulo` sera almacenado ya sea en alguna o en todas las tiendas u almacenes, este podra ser vendido, trasladado, reabastecido o perdido.
+
+Cuando se realiza una `venta` se realizará una `factura`, ya sea a publico en general o a un cliente en especifico, debemos realizar un registro de cada venta, esta operacion es de ingreso.
+
+Un `traslado` es llevado a cabo cuando por algún motivo es necesario mover uno o más articulos de una tienda a otra, o en su caso, de un almacen a otro, o de una almacen a una tienda, ya sea parcial o totalmente, aquí tendremos almenos un `empleado` encargado, esta operacion no representa ni un ingreso ni un egreso a la empresa.
+
+Un `reabastecimiento` es la compra de `articulos` a un `proveedor`, este se realizará cuando se acerque a un minimo de cantidades de dichos articulos, esta representa un egreso.
+
+Una `devolución` se realiza, como ya se mencionó arriba, cuando un usuario decide regresar el producto, aquí se le regresa el dinero del costo del producto devuelto, este producto podra regresar al inventario o desecharse.
+
+Una `perdida` se da por dos motivos, que un producto se deba desechar, o, que un producto haya sido robado, esto representa perdidas para la empresa.
+
+Más adelante se analizará a detalle cada uno de estos movimientos.
+
+Otra parte fundamental es la gestion del recursos humanos, en esta se encuentran `sujetos`, los cales son `contratados`
+
+
+
+```mermaid
+flowchart TD
+    LUGAR-->ARTICULO;    
+    subgraph sujeto
+        CLIENTE
+        EMPLEADO
+        PROVEEDOR
+    end
+
+    subgraph inventario
+        ARTICULO;
+      
+        subgraph movimiento
+            direction TB
+            REABASTECIMIENTO;
+            VENTA;
+            DESECHO;
+            TRASLADO;
+        end
+    end
+    PROVEEDOR-->REABASTECIMIENTO;
+    EMPLEADO-->VENTA;
+    EMPLEADO-->TRASLADO
+    CLIENTE-->VENTA;
+    ARTICULO-->movimiento;
+    LUGAR-->movimiento;
+```
 
 ### Inventario
 El inventario es el conjunto de artículos o materiales que un negocio tiene la intención de vender a los clientes con fines lucrativos. 
@@ -25,37 +73,39 @@ El objetivo de la gestión de inventario es tener los productos correctos en el 
 - Almacenamiento de inventario: el inventario se almacena hasta que se necesita. Los bienes o materiales se transfieren a través de su red, y hasta que estén listos para su envío.
 - Beneficio del inventario: Se controla la cantidad de producto a la venta. Las mercancías acabadas son liberadas para tramitar los pedidos. Los productos son enviados a los clientes.
 
-Dentro del inventario encontramos muchas entidades relacionadas,una de ellas es el `articulo` nos interesa identificarlo, conocer su nombre, descripción, precio en que se compra, precio a la venta, palabras clave, categoria a la que pertenece, en qué tiendas/almacenes se encuentra y la cantidad que hay en cada uno, un registro de cuando se reabastece y un registro de cada venta de dicho producto.
 
-Cada que se realiza una `venta` se actualiza la cantidad de productos en inventario, de cada `venta`, nos interesa conocer los articulos involucrados, así como la cantidad de cada uno, el total, la tienda en que se realizó la compra, la fecha, si el pago fue en efectivo, transferencia o con tarjeta, así como los datos del cliente.
+
+
+ nos interesa identificarlo, conocer su nombre, descripción, precio en que se compra, precio a la venta, palabras clave, categoria a la que pertenece, en qué tiendas/almacenes se encuentra y la cantidad que hay en cada uno, un registro de cuando se reabastece y un registro de cada venta de dicho producto.
+
+```mermaid
+flowchart LR
+    ARTICULO-->id([id]);
+    ARTICULO-->nom([nombre]);
+    ARTICULO-->desc([descripcion]);
+    ARTICULO-->prec_compra([precio a la compra]);
+    ARTICULO-->prec_venta([precio a la venta]);
+    ARTICULO-->keywords([palabras clave]);
+    ARTICULO-->cat([categoria]);
+    ARTICULO-->tiendas([tiendas]);
+    ARTICULO-->cant_tienda([cantidad en cada tienda]);
+    ARTICULO-->reab([reabastecimientos]);
+    ARTICULO-->vent([ventas]);
+
+```
+
+Cada que se realiza una `venta` se actualiza la cantidad de productos en inventario, de cada `venta`, nos interesa conocer los articulos involucrados, así como la cantidad de cada uno, el total, la tienda en que se realizó la compra, la fecha, si el pago fue en efectivo, transferencia o con tarjeta, así como los datos del `cliente` y el `empleado` que la concretó.
+
+Hay más momentos que pueden alterar al inventario, estos son `traslado` y la `reabastecimiento`, en el caso de `traslado` nos referimos cuando se deben redestribuir los articulos dentro de lugares propios de la empresa (almacen, tienda, etc), es decir cuando de la "tienda 1" se traslada "x" producto a la "tienda 2", en este movimiento nos interesa conocer los 
+ 
+
+
 
 # ...
 
  obteniendo el siguiente diagrama conceptual:
 
-```mermaid
-flowchart TD
-    ARTICULO-->INVENTARIO;
-    LUGAR-->INVENTARIO;      
-    subgraph movimiento
-        direction TB
-        COMPRA;
-        VENTA;
-        TRASLADO;
-    end
-    subgraph sujeto
 
-        CLIENTE
-        EMPLEADO
-        PROVEEDOR
-    end
-    PROVEEDOR-->COMPRA;
-    EMPLEADO-->VENTA;
-    EMPLEADO-->TRASLADO
-    CLIENTE-->VENTA;
-    ARTICULO-->movimiento;
-    LUGAR-->movimiento; 
-```
 
 
 ## Referencias
