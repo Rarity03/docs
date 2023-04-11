@@ -43,33 +43,94 @@ El objetivo de la gestión de inventario es tener los productos correctos en el 
 - Almacenamiento de inventario: el inventario se almacena hasta que se necesita. Los bienes o materiales se transfieren a través de su red, y hasta que estén listos para su envío.
 - Beneficio del inventario: Se controla la cantidad de producto a la venta. Las mercancías acabadas son liberadas para tramitar los pedidos. Los productos son enviados a los clientes.<sup>3</sup>
 
-En el inventario se encunetran distintas entidades relacionadas, la principal es el `articulo`, puesto que es la manipulación de este en que giran las acciones de la empresa.
+En el inventario se encunetran distintas entidades relacionadas, la principal es el `ARTICULO`, puesto que es la manipulación de este en que giran las acciones de la empresa.
 
-Este `articulo` sera almacenado ya sea en alguna o en todas las tiendas u almacenes, este podra ser vendido, trasladado, reabastecido o perdido, estas acciones las identificaremos como `movimientos`.
+Este `ARTICULO` estará en el `INVENTARIO` ya sea en alguna o en todas las tiendas u almacenes, este podra ser afectado por una `VENTA`, un `TRASLADO`, una `PERDIDA` o un `REABASTECIMIENTO`, estas acciones las identificaremos como `MOVIMIENTO` dado que comparten información que será detallada más adelante.
 
-Cuando se realiza una `venta` se realizará una `factura`, ya sea a publico en general o a un cliente en especifico, debemos realizar un registro de cada venta, esta operacion es de ingreso.
-
-Un `traslado` es llevado a cabo cuando por algún motivo es necesario mover uno o más articulos de una tienda a otra, o en su caso, de un almacen a otro, o de una almacen a una tienda, ya sea parcial o totalmente, aquí tendremos almenos un `empleado` encargado, esta operacion no representa ni un ingreso ni un egreso a la empresa.
-
-Un `reabastecimiento` es la compra de `articulos` a un `proveedor`, este se realizará cuando se acerque a un minimo de cantidades de dichos articulos, esta representa un egreso.
-
-Una `devolución` se realiza, como ya se mencionó arriba, cuando un usuario decide regresar el producto, aquí se le regresa el dinero del costo del producto devuelto, este producto podra regresar al inventario o desecharse.
-
-Una `perdida` se da por dos motivos, que un producto se deba desechar, o, que un producto haya sido robado, esto representa perdidas para la empresa.
+Tanto `CLIENTE`, `EMPLEADO`, `PROOVEDOR` y `LUGAR` son entidades que comparten informacion en común, por lo que nombraremos a una entidad padre `SUJETO`
 
 ```mermaid
 graph TD;
     LUGAR---ARTICULO;    
     SUJETO---MOVIMIENTO;
     ARTICULO---MOVIMIENTO;
-    LUGAR---MOVIMIENTO;
-```
-Diagrama de relaciones generales entre entidades.
+    subgraph MOVIMIENTO
+        VENTA
+        TRASLADO
+        PERDIDA
+        REABASTECIMIENTO
+    end
 
-Se procede a analizar individualmente cada entidad, con el fin de definir los atributos que cada una poseera, a ecepcion de los englobados en sujeto.
+    subgraph SUJETO
+        CLIENTE
+        EMPLEADO
+        PROVEEDOR
+        LUGAR
+    end
+```
+Diagrama de relaciones generales entre entidades involucradas en la gestion de inventario.
+
+## Recursos Humanos
+El departamento de recursos humanos es quien debe velar y promover un buen ambiente laboral que impulse a la organización a mejorar su eficiencia y efectividad. Es el área responsable de representar y transmitir la cultura empresarial y sus valores al resto de empleados para conseguir, a través de una buena gestión, que los objetivos empresariales y los objetivos de los trabajadores vayan de la mano.
+Funciones 
+1. Planificacion y selección del personal
+2. Administración del personal
+3. Evaluación y desarrollo
+4. Formación del personal
+5. Relaciones laborales
+
+Nosotros nos enfocaremos en la Administración del personal y la Evaluación y desarrollo de este.
+
+Cada `EMPLEADO`sera contratado mediante un `CONTRATO`, este tendrá informacion como la fecha de inicio y de fin, el sueldo, prestaciones, entre otras más; este podrá ser renovado o terminado al acercarce a la fecha de finalización.
+
+
+
+## Finanzas
+## Facturación
+
+Se procede a analizar individualmente cada entidad.
+## SUJETO
 
 ### Lugar 
-Por `LUGAR` nos referimos a la sucursal y/o almacen (si se da el caso) en que se encuentra almacenado un producto.
+Por `LUGAR` se refiere a la sucursal y/o almacen (si se da el caso) en que se encuentra almacenado un producto, en este tenemos sujetos y se puede realizar cualquier movimiento posteriormente definidos.
+Por lugares hacemos referencia a las sucursales, almacenes y/o oficinas que posee la empresa, los dos primeros poseeran una capacidad máxima, en los dos primeros casos de productos y en el ultimo de personal.
+
+#### id
+Dato serial con el objetivo de identificar los distintos lugares.
+#### telefono
+#### correo
+#### nombre
+#### codigo postal
+#### pais
+#### entidad_federativa
+#### municipio
+#### calle
+#### numero
+#### tipo
+#### responsable
+#### cap_max
+```mermaid
+erDiagram
+LUGAR{
+    serial id pk
+    
+    varchar nombre
+    int telefono
+    varchar correo
+    
+    int codigo_postal
+    varchar asentamiento
+    varchar muinicipio
+    varchar estado
+    varchar pais
+    int numero_interno
+    int numero_externo
+
+    enum tipo
+    int responsable fk
+}
+EMPLEADO ||--|{ LUGAR: tiene
+```
 
 ---
 ### Articulo
@@ -105,7 +166,7 @@ Este atributo tiene cómo finalidad que el usuario final sepa a que articulo se 
 #### descripción
 Este atributo permite al usuario identificar la naturaleza del articulo, para fines de este proyecto tomaremos que es la descripcion mostrada por el SAT en su catalogo de productos y servicios, para lo que simplemente se hace referencia a la clave de producto o servicio, para una optima implementacion, se creará la entidad `CAT_PROD_SER`, la cual será poblada con la informacion proporcionada por el SAT.
 
-La entidad `CAT_PROD_SER` se analizará más adelante en la sección facturacipon.
+La entidad `CAT_PROD_SER` se analizará más.
 
 #### precio
 Este atributo es una pieza clave en nuestra base de datos, este lo podemos considerar en dos partes, el precio a la compra, y el precio a la venta, dado que el precio a la compra no es propio del articulo, más bien, es propio del movimiento de reabastecimiento, este se ignorará de momento en esta entidad, mientras que el precio a la venta sí lo es, este sera referenciado solamente cómo precio, el cual es el valor unitario solicitado por el SAT.
@@ -117,7 +178,13 @@ Este atributo tiene un fin similar a la descripcion, con la unica diferencia de 
 Este atributo es requerido por el SAT, el fin es conocer la tangibilidad de los articulos(kg, cm, lts, etc), al igual que con la categoria y descripcion, nos proporciona un catalogo de unidades, por lo que se implementará la entidad `CAT_UNIDAD`.
 
 #### obj_imp
-Se utiliza simplemente para identificar si el articulo es objeto de impuesto o no, utilizado posteriormente en el analizis y calculo de impuestos
+Se utiliza simplemente para identificar si el articulo es objeto de impuesto o no, utilizado posteriormente en el analizis y calculo de impuestos, los posibles valores son:
+|obj_imp|Definicion|
+|--|--|
+|01|No objeto de impuesto|
+|02|Sí objeto de impuesto|
+|03|Si objeto de impuesto y no obligado al desglose|
+|04|Sí objeto del impuesto y no causa impuesto|
 
 #### caracteristicas
 Con el fin de analizar el comportamiento de los usuarios, y hacer un analizis más completo de las ventas, estos se guardaran en objetos javascript.
@@ -149,8 +216,29 @@ CAT_PROD_SER{
     CARACTER(200) descripcion
 }
 ```
+
+Dad que cada articulo se debe almacenar en algún lugar se presena la siguiente relacion
+
+```mermaid
+erDiagram
+ARTICULO
+LUGAR
+LUGAR}|--|{ARTICULO: almacena
+```
+
+Dado que la relacion muchos a muchos no es lo más optimo en su implementacion, es necesaria la implementacion de una entidad de interconeccion, la cual se nombrará `inventario`, este llevará el registro de que articulos están en que lugar. 
+
 ---
 ### Movimientos
+Cuando se realiza una `VENTA` se realizará una `FACTURA`, ya sea a publico en general o a un `CLIENTE` en especifico, debemos realizar un registro de cada venta, esta operacion es de ingreso.
+
+Un `TRASLADO` es llevado a cabo cuando por algún motivo es necesario mover uno o más articulos de una tienda a otra, o en su caso, de un almacen a otro, o de una almacen a una tienda, ya sea parcial o totalmente, aquí tendremos almenos un `EMPLEADO` encargado, esta operacion no representa ni un ingreso ni un egreso a la empresa.
+
+Un `REABASTECIMIENTO` es la compra de `ARTICULOS` a un `PROVEEDOR`, este se realizará cuando se acerque a un minimo de cantidades de dichos articulos, esta representa un egreso.
+
+Una `DEVOLUCION` se realiza, como ya se mencionó arriba, cuando un usuario decide regresar el producto, aquí se le regresa el dinero del costo del producto devuelto, este producto podra regresar al inventario o desecharse.
+
+Una `PERDIDA` se da por dos motivos, que un producto se deba desechar, o, que un producto haya sido robado, esto representa perdidas para la empresa.
 --- 
 En esta entidad se almacenan los  
 
