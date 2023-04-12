@@ -125,10 +125,15 @@ Diagrama conceptual parcial tomando en cuenta las entidades involucradas en la g
 ## Finanzas
 El departamento de finanzas analiza tanto los ingresos cómo los egresos de la empresa.
 Se analizarán los 
-## Facturación
+
+No se toma en cuenta lo de entrega de productos, puesto que toda venta se dará en mostrador.
 
 
-Se procede a analizar individualmente cada entidad.
+- Gastos
+- Ingresos
+- Impuestos
+- Registro de facturas
+
 ## SUJETO
 
 ### Lugar 
@@ -214,9 +219,6 @@ Este atributo es una pieza clave en nuestra base de datos, este lo podemos consi
 #### categoria
 Este atributo tiene un fin similar a la descripcion, con la unica diferencia de que su uso es agrupar a este producto con otros similares, para esto igualmente utilizaremos los datos proporcionados en el catalogo de productos y servicios, a diferencia que esta vez, el interes es unicamente la clave de la clase.
 
-#### unidad
-Este atributo es requerido por el SAT, el fin es conocer la tangibilidad de los articulos(kg, cm, lts, etc), al igual que con la categoria y descripcion, nos proporciona un catalogo de unidades, por lo que se implementará la entidad `CAT_UNIDAD`.
-
 #### obj_imp
 Se utiliza simplemente para identificar si el articulo es objeto de impuesto o no, utilizado posteriormente en el analizis y calculo de impuestos, los posibles valores son:
 |obj_imp|Definicion|
@@ -242,14 +244,8 @@ ARTICULO{
     Entero(8) descripcion FK
     Entero precio
     Entero(8) categoria FK
-    CARACTER(3) unidad FK
     ENUM obj_imp
     JSON caracteristicas
-}
-CAT_UNIDAD{
-    Entero(8) clave PK
-    CARACTER(200) tipo
-    CARACTER(50) nombre
 }
 CAT_PROD_SER{
     Entero(8) clave PK
@@ -270,7 +266,7 @@ Dado que la relacion muchos a muchos no es lo más optimo en su implementacion, 
 
 ---
 ### Movimientos
-Cuando se realiza una `VENTA` se realizará una `FACTURA`, ya sea a publico en general o a un `CLIENTE` en especifico, debemos realizar un registro de cada venta, esta operacion es de ingreso.
+Cuando se realiza una `VENTA` se realizará una `FACTURA`, ya sea a publico en general o a un `CLIENTE` en especifico, debemos realizar un registro de cada venta, esta operacion es de ingreso, si es en mostrador o a domicilio.
 
 Un `TRASLADO` es llevado a cabo cuando por algún motivo es necesario mover uno o más articulos de una tienda a otra, o en su caso, de un almacen a otro, o de una almacen a una tienda, ya sea parcial o totalmente, aquí tendremos almenos un `EMPLEADO` encargado, esta operacion no representa ni un ingreso ni un egreso a la empresa.
 
@@ -297,8 +293,11 @@ Hay más momentos que pueden alterar al inventario, estos son `traslado` y la `r
 
  obteniendo el siguiente diagrama conceptual:
 
+### Normalizar
 
+--- DIAGRAMA ER FINAL
 
+### DISTRUBUCION DE LA BD
 
 ## Referencias
 1. [Crehana | Blog | Negocios | ¿Cómo poner una tienda de abarrotes](https://www.crehana.com/blog/negocios/como-poner-tienda-abarrotes/)
