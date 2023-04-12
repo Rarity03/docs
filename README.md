@@ -47,7 +47,7 @@ En el inventario se encunetran distintas entidades relacionadas, la principal es
 
 Este `ARTICULO` estará en el `INVENTARIO` ya sea en alguna o en todas las tiendas u almacenes, este podra ser afectado por una `VENTA`, un `TRASLADO`, una `PERDIDA` o un `REABASTECIMIENTO`, estas acciones las identificaremos como `MOVIMIENTO` dado que comparten información que será detallada más adelante.
 
-Tanto `CLIENTE`, `EMPLEADO`, `PROOVEDOR` y `LUGAR` son entidades que comparten informacion en común, por lo que nombraremos a una entidad padre `SUJETO`
+`LUGAR` es una  entidad que comparte informacion en común con otras, por lo que nombraremos a una entidad padre `SUJETO`
 
 ```mermaid
 graph TD;
@@ -62,13 +62,11 @@ graph TD;
     end
 
     subgraph SUJETO
-        CLIENTE
-        EMPLEADO
-        PROVEEDOR
+        
         LUGAR
     end
 ```
-Diagrama de relaciones generales entre entidades involucradas en la gestion de inventario.
+Diagrama conceptual parcial tomando en cuenta las entidades involucradas en la gestíon de inventario.
 
 ## Recursos Humanos
 El departamento de recursos humanos es quien debe velar y promover un buen ambiente laboral que impulse a la organización a mejorar su eficiencia y efectividad. Es el área responsable de representar y transmitir la cultura empresarial y sus valores al resto de empleados para conseguir, a través de una buena gestión, que los objetivos empresariales y los objetivos de los trabajadores vayan de la mano.
@@ -79,14 +77,43 @@ Funciones
 4. Formación del personal
 5. Relaciones laborales
 
-Nosotros nos enfocaremos en la Administración del personal y la Evaluación y desarrollo de este.
+El desarrollo del presente proyecto se enfocará en la Administración del personal y la Evaluación y desarrollo de este.
 
-Cada `EMPLEADO`sera contratado mediante un `CONTRATO`, este tendrá informacion como la fecha de inicio y de fin, el sueldo, prestaciones, entre otras más; este podrá ser renovado o terminado al acercarce a la fecha de finalización.
+Cada `EMPLEADO` es contratado mediante un `CONTRATO`, cada `EMPLEADO` pertenecerá a un `DEPARTAMENTO`, cada `EMPLEADO` tendrá un jefe que tambien será `EMPLEADO`, este empleadó tendrá `OBJETIVO`, así cómo tambien podrá realizar una `FALTA`.
 
+El empleado tiene atributos propios de `SUJETO`, por esto los heredará. 
 
+```mermaid
+graph
+EMPLEADO---EMPLEADO
+EMPLEADO---CONTRATO
+EMPLEADO---DEPARTAMENTO
+EMPLEADO---OBJETIVO
+EMPLEADO---FALTA
+
+LUGAR---ARTICULO;    
+    SUJETO---MOVIMIENTO;
+    ARTICULO---MOVIMIENTO;
+    subgraph MOVIMIENTO
+        VENTA
+        TRASLADO
+        PERDIDA
+        REABASTECIMIENTO
+    end
+
+    subgraph SUJETO
+        EMPLEADO
+        LUGAR
+    end
+
+```
+Diagrama conceptual parcial tomando en cuenta las entidades involucradas en la gestíon de inventario y recursos humanos.
 
 ## Finanzas
+El departamento de finanzas analiza tanto los ingresos cómo los egresos de la empresa.
+Se analizarán los 
 ## Facturación
+
 
 Se procede a analizar individualmente cada entidad.
 ## SUJETO
@@ -134,7 +161,7 @@ EMPLEADO ||--|{ LUGAR: tiene
 
 ---
 ### Articulo
- Nos interesa identificarlo, conocer su nombre, descripción, precio en que se compra, precio a la venta, palabras clave, categoria a la que pertenece, en qué tiendas/almacenes se encuentra y la cantidad que hay en cada uno, un registro de cuando se reabastece y un registro de cada venta de dicho producto.
+ Nos interesa identificarlo, conocer su nombre, descripción, precio en que se compra, precio a la venta, categoria a la que pertenece, en qué tiendas/almacenes se encuentra y la cantidad que hay en cada uno, un registro de cuando se reabastece y un registro de cada venta de dicho producto.
 
  Dado que el  departamento de facturacióntambien usará el sistema, el SAT (Secretaria de Administración Tributaria) requiere dentro de una factura algunos datos del articulo, entre ellos se encuentran
  - Clave de producto o servicio
@@ -244,12 +271,7 @@ En esta entidad se almacenan los
 
 ## Recursos humanos
 ## Finanzas
-
 Precio base, porcentaje de ganancia, porcentaje de impuestos, porcentaje de gasstos de administracion, porcentaje de gastos de venta
-
-
-
-
 
 Cada que se realiza una `venta` se actualiza la cantidad de productos en inventario, de cada `venta`, nos interesa conocer los articulos involucrados, así como la cantidad de cada uno, el total, la tienda en que se realizó la compra, la fecha, si el pago fue en efectivo, transferencia o con tarjeta, así como los datos del `cliente` y el `empleado` que la concretó.
 
