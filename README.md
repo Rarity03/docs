@@ -79,35 +79,48 @@ Funciones
 
 El desarrollo del presente proyecto se enfocará en la Administración del personal y la Evaluación y desarrollo de este.
 
-Cada `EMPLEADO` es contratado mediante un `CONTRATO`, cada `EMPLEADO` pertenecerá a un `DEPARTAMENTO`, cada `EMPLEADO` tendrá un jefe que tambien será `EMPLEADO`, este empleadó tendrá `OBJETIVO`, así cómo tambien podrá realizar una `FALTA`.
+Cada `EMPLEADO` es contratado mediante un `CONTRATO`, cada `EMPLEADO` pertenece a un `LUGAR` o a un `DEPARTAMENTO`, este `EMPLEADO` tendrá `OBJETIVO`s, así cómo tambien puede incurrir en una `FALTA`, tambien, el `EMPLEADO`registra su `ASISTENCIA` cada `DEPARTAMENTO` tiene un gerente, y cada `LUGAR` tiene un encargado, que igualmente es `EMPLEADO`.
+Cada `DEPARTAMENTO` se ubica en un `LUGAR`.
 
 El empleado tiene atributos propios de `SUJETO`, por esto los heredará. 
 
 ```mermaid
-graph
-EMPLEADO---EMPLEADO
-EMPLEADO---CONTRATO
-EMPLEADO---DEPARTAMENTO
-EMPLEADO---OBJETIVO
-EMPLEADO---FALTA
-
-LUGAR---ARTICULO;    
-    SUJETO---MOVIMIENTO;
-    ARTICULO---MOVIMIENTO;
+flowchart TB
+    subgraph id[ ]
+        direction RL
+        CONTRATO
+        DEPARTAMENTO
+        OBJETIVO
+        FALTA
+        LUGAR
+    end
+    
     subgraph MOVIMIENTO
         VENTA
         TRASLADO
         PERDIDA
         REABASTECIMIENTO
     end
-
     subgraph SUJETO
+        direction LR
         EMPLEADO
         LUGAR
     end
+    
+    LUGAR---ARTICULO;    
+    SUJETO---MOVIMIENTO;
+    ARTICULO---MOVIMIENTO;
+    
+    EMPLEADO---CONTRATO
+    EMPLEADO---DEPARTAMENTO
+    EMPLEADO---OBJETIVO
+    EMPLEADO---FALTA
+    EMPLEADO---LUGAR
+    DEPARTAMENTO---LUGAR
 
 ```
 Diagrama conceptual parcial tomando en cuenta las entidades involucradas en la gestíon de inventario y recursos humanos.
+## Ventas
 
 ## Finanzas
 El departamento de finanzas analiza tanto los ingresos cómo los egresos de la empresa.
