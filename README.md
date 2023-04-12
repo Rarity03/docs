@@ -92,7 +92,6 @@ flowchart TB
         DEPARTAMENTO
         OBJETIVO
         FALTA
-        LUGAR
     end
     
     subgraph MOVIMIENTO
