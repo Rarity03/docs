@@ -13,12 +13,11 @@ Colocandonos en el contexto proporcionado por el proyecto
 >El sistema es un ERP de una empresa de tiendas de abarrotes la cual tiene 4 sucursalesen la ciudad (Sucursal Lerma, Zinacantepec, Toluca centro y Metepec). El desarrollo debe ser un sistema integral donde se incluyan todas las áreas y los procesos de negocio de la empresa (ventas, control de inventarios, entrega de productos, finanzas, facturación, recursos humanos). No necesariamente en alguna de las sucursales estarán las bases de datos <sup>2</sup>
 
 obtenemos una guia para nuestra investigación, principalmente enfocado a entender cual es el flujo de trabajo de una tienda de abarrotes.
+## Analisis por area de la empresa.
+Las partes fundamentales del proceso de negocio son el control de inventario, recursos humanos y finanzas, las cuales se analizaran con el fin de identificar las entidades de la base de datos.
+### Inventario
 
-Las partes fundamentales del proceso de negocio son el control de inventario, recursos humanos y finanzas, las cuales se analizaran aisladamente para posteriormente unificarlas.
-
-## Inventario
-
- El inventario es el conjunto de artículos o materiales que un negocio tiene la intención de vender a los clientes con fines lucrativos. 
+El inventario es el conjunto de artículos o materiales que un negocio tiene la intención de vender a los clientes con fines lucrativos. 
 
 La gestión de inventario, un elemento crítico de la cadena de suministro, es el seguimiento del inventario desde el momento de su fabricación hasta los almacenes, y desde estas instalaciones hasta el punto de venta. 
 
@@ -62,22 +61,21 @@ graph TD;
     end
 
     subgraph SUJETO
-        
+        EMPLEADO
         LUGAR
     end
 ```
 Diagrama conceptual parcial tomando en cuenta las entidades involucradas en la gestíon de inventario.
 
-## Recursos Humanos
+### Recursos Humanos
 El departamento de recursos humanos es quien debe velar y promover un buen ambiente laboral que impulse a la organización a mejorar su eficiencia y efectividad. Es el área responsable de representar y transmitir la cultura empresarial y sus valores al resto de empleados para conseguir, a través de una buena gestión, que los objetivos empresariales y los objetivos de los trabajadores vayan de la mano.
-Funciones 
+
+Funciones :
 1. Planificacion y selección del personal
 2. Administración del personal
 3. Evaluación y desarrollo
-4. Formación del personal
-5. Relaciones laborales
 
-El desarrollo del presente proyecto se enfocará en la Administración del personal y la Evaluación y desarrollo de este.
+Por lo que para la implementacion del proyecto en esta erea, consideeramos:
 
 Cada `EMPLEADO` es contratado mediante un `CONTRATO`, cada `EMPLEADO` pertenece a un `LUGAR` o a un `DEPARTAMENTO`, este `EMPLEADO` tendrá `OBJETIVO`s, así cómo tambien puede incurrir en una `FALTA`, tambien, el `EMPLEADO`registra su `ASISTENCIA` cada `DEPARTAMENTO` tiene un gerente, y cada `LUGAR` tiene un encargado, que igualmente es `EMPLEADO`.
 Cada `DEPARTAMENTO` se ubica en un `LUGAR`.
@@ -87,7 +85,7 @@ El empleado tiene atributos propios de `SUJETO`, por esto los heredará.
 ```mermaid
 flowchart TB
     subgraph id[ ]
-        direction RL
+        direction TB
         CONTRATO
         DEPARTAMENTO
         OBJETIVO
@@ -101,7 +99,7 @@ flowchart TB
         REABASTECIMIENTO
     end
     subgraph SUJETO
-        direction LR
+        direction TB
         EMPLEADO
         LUGAR
     end
@@ -116,40 +114,94 @@ flowchart TB
     EMPLEADO---FALTA
     EMPLEADO---LUGAR
     DEPARTAMENTO---LUGAR
-
 ```
 Diagrama conceptual parcial tomando en cuenta las entidades involucradas en la gestíon de inventario y recursos humanos.
-## Ventas
+### Finanzas
+El departamento de finanzas es la parte que se encarga de llevar las finanzas de la organización. Con esto nos referimos a todas las responsabilidades económicas de ella. No obstante, aunque en lineamientos generales la función preponderante de este sector tenga esta responsabilidad, su alcance son mucho más que esto es sí.
 
-## Finanzas
-El departamento de finanzas analiza tanto los ingresos cómo los egresos de la empresa.
-Se analizarán los 
+La principal función que tiene el departamento de finanzas es la de realizar las cancelaciones de las obligaciones económicas de la empresa. Como así también la de gestionar las partidas de ingresos y gastos que pueda tener la compañía.<sup>6</sup>
+
+Las funciones del departamento de finanzas son:
+- Consultoría y analisis de presupuestos
+- Estructurar de forma conveniente los planes financieros
+- Pago de salario de los trabajadores
+- Análisis de las problemáticas financieras
 
 No se toma en cuenta lo de entrega de productos, puesto que toda venta se dará en mostrador.
 
+#### Ingresos
+Los ingresos de la empresa proviene unicamente de la `VENTA`. 
 
-- Gastos
-- Ingresos
-- Impuestos
-- Registro de facturas
+Cuando se realiza una `VENTA` se realiza una `FACTURA`, ya sea a publico en general o a un `CLIENTE` (Entidad hija de SUJETO) en especifico y un `EMPLEADO` la lleva a cabo en determinado`LUGAR`, en una venta hay uno o más `ARTICULO`s.
 
-## SUJETO
+#### Gastos
+Los gastos de la empresa provienen de distintas fuentes, entre ellas:
+- Reabastecimiento
+- Movimiento de mercancia (TRASLADO)
+- Pago de servicios (Agua, luz)
+- Nominas
+- Seguro
+- Afore
+- Pago de impuestos
+- Prima vacacional
+- Renta
 
-### Lugar 
-Por `LUGAR` se refiere a la sucursal y/o almacen (si se da el caso) en que se encuentra almacenado un producto, en este tenemos sujetos y se puede realizar cualquier movimiento posteriormente definidos.
-Por lugares hacemos referencia a las sucursales, almacenes y/o oficinas que posee la empresa, los dos primeros poseeran una capacidad máxima, en los dos primeros casos de productos y en el ultimo de personal.
+
+Un `REABASTECIMIENTO` es la compra de `ARTICULOS` a un `PROVEEDOR`, este se realizará cuando se acerque a un minimo de cantidades de dichos articulos, estos `ARTICULOS`adquiridos son almacenados en un `LUGAR`.
+
+Un `TRASLADO` es llevado a cabo cuando por algún motivo es necesario mover uno o más `ARTICULO`s de una tienda a otra, o en su caso, de un almacen a otro, o de una almacen a una tienda, ya sea parcial o totalmente, aquí tendremos almenos un `EMPLEADO` encargado, el costo de este traslado es por traslado y no por articulo.
+
+Cada `LUGAR` tiene que pagar `SERVICIOS` como lo es el agua, luz, entre otras cosas al igual que `RENTA`, estas dos unidades se unifican en una llamada `GASTOS LUGAR`.
+
+A cada `EMPLEADO` se le debe pagar la `NOMINA` quincenalmente, por cada `EMPLEADO` se debe pagar lo correspondiente al `SEGURO` y del `AFORE`.
+
+Cada que un `EMPLEADO` pida `VACACIONES` se realizará el pago correspondiente de su `PRIMA VACACIONAL`
+
+De `NOMINA`, `SEGURO`, `AFORE` y `PRIMA VACACIONAL` se pueden unificar en una sola entidad nombrada `GASTOS_EMPLEADO`puesto que tienen la misma información, id de empleado, monto, fecha, etc.
+#### Perdidas
+Las `PERDIDA`s se dan por dos cosas, que el `ARTICULO` se haya hechado a perder, o que un `LUGAR` haya sufrido un robo
+
+![Diagrama conceptual](/images/ModeloConceptual.svg)
+## Analisis de las entidades y nombramiento de las relaciones.
+
+Esta fase del analisis tiene identificar los atributos de las entidades, así como nombrar las relaciones entre ellas, con el fin de obtener el diagrama ER.
+Procederemos a analizar cada entidad y sus relaciones.
+### SUJETO
+Por `SUJETO` se refiere a cualquier entidad que tenga un nombre, un lugar, un telefono, un correo y una dirección. En este caso tenemos a `EMPLEADO`, `CLIENTE`, `LUGAR` y `PROVEEDOR`.
 
 #### id
-Dato serial con el objetivo de identificar los distintos lugares.
+Dato serial con el objetivo de identificar los distintos sujetos.
 #### telefono
+Número de teléfono del sujeto. Este es un dato numérico de 10 dígitos.
 #### correo
+Correo electrónico del sujeto. Este es un dato alfanumérico.
+
+Una dirección de correo electrónico válida debe cumplir las siguientes condiciones:
+
+- Contener "@"
+- La longitud de la parte local (antes del símbolo "@") debe estar comprendida entre 1 y 64 caracteres.
+- La longitud de la parte de dominio (después del símbolo "@") debe estar comprendida entre 4 y 255 caracteres.
+- La longitud total debe ser menor o igual a 256 caracteres.
+- La parte local y la parte de dominio deben comenzar por una letra o dígito y no deben contener dos símbolos "." consecutivos
+- La parte local y la parte de dominio pueden contener letras, números y los caracteres ".", "_" y "-".
+- La parte del dominio debe terminar con un símbolo "." y entre dos y cuatro caracteres alfabéticos.
+
 #### nombre
+Nombre del sujeto. Este es un dato alfanumérico, el cual puede contener espacios, acentos y caracteres especiales, su longitud máxima es de 100 caracteres.
 #### codigo postal
 #### pais
 #### entidad_federativa
 #### municipio
 #### calle
 #### numero
+
+
+
+#### Lugar 
+Por `LUGAR` se refiere a la sucursal y/o almacen (si se da el caso) en que se encuentra almacenado un producto, en este tenemos sujetos y se puede realizar cualquier movimiento posteriormente definidos.
+Por lugares hacemos referencia a las sucursales, almacenes y/o oficinas que posee la empresa, los dos primeros poseeran una capacidad máxima, en los dos primeros casos de productos y en el ultimo de personal.
+
+
 #### tipo
 #### responsable
 #### cap_max
@@ -269,7 +321,6 @@ Cuando se realiza una `VENTA` se realizará una `FACTURA`, ya sea a publico en g
 
 Un `TRASLADO` es llevado a cabo cuando por algún motivo es necesario mover uno o más articulos de una tienda a otra, o en su caso, de un almacen a otro, o de una almacen a una tienda, ya sea parcial o totalmente, aquí tendremos almenos un `EMPLEADO` encargado, esta operacion no representa ni un ingreso ni un egreso a la empresa.
 
-Un `REABASTECIMIENTO` es la compra de `ARTICULOS` a un `PROVEEDOR`, este se realizará cuando se acerque a un minimo de cantidades de dichos articulos, esta representa un egreso.
 
 Una `DEVOLUCION` se realiza, como ya se mencionó arriba, cuando un usuario decide regresar el producto, aquí se le regresa el dinero del costo del producto devuelto, este producto podra regresar al inventario o desecharse.
 
