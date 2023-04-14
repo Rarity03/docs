@@ -2,10 +2,27 @@
 
 Esta fase del analisis tiene identificar los atributos de las entidades, así como nombrar las relaciones entre ellas, con el fin de obtener el diagrama ER.
 Procederemos a analizar cada entidad y sus relaciones.
-### SUJETO
----
-Por `SUJETO` se refiere a cualquier entidad que tenga un nombre, un lugar, un telefono, un correo y una dirección. En este caso tenemos a `EMPLEADO`, `CLIENTE`, `LUGAR` y `PROVEEDOR`.
 
+El analisis de entidad debe seguir el siguiente formato
+## Nombre entidad
+Descripcion entidad
+### Atributos
+---
+#### nombre atributo
+Descripcion atributo
+###
+### Relaciones
+---
+#### Nombre relacion
+Descripcion relacion
+
+
+
+
+## SUJETO
+Por `SUJETO` se refiere a cualquier entidad que tenga un nombre, un lugar, un telefono, un correo y una dirección. En este caso tenemos a `EMPLEADO`, `CLIENTE`, `LUGAR` y `PROVEEDOR`.
+### Atributos
+---
 #### id
 Dato serial con el objetivo de identificar los distintos sujetos.
 #### telefono
