@@ -206,6 +206,26 @@ Esta relacion tambien se da en el atributo categoría, donde funciona de la mism
 Esta relación es de uno a muchos, puesto que un articulo puede tener una sola unidad, pero una unidad puede ser utilizada por muchos articulos.
 
 ### Movimiento
+El `Movimiento` se refiere a cada entidad donde se requiera saber la cantidad de  articulos, el lugar donde se llevo el movimiento asi como la fecha y hora del movimiento; De esta entidad forman parte como hijas las entidades `TRANSLADO`, `VENTA`, `REBASTECIMIENTO` y `PERDIDA` las cuales son un tipo de movimiento.
+
+
+### Atributos
+---
+
+#### id_movimiento
+Cada movimiento debera ser identificado por un id para asi llevar un control de los translados, ventas, rebastecimiento y perdidas
+
+#### cantidad_conceptos
+Este atributo hace referencia a la cantidad de conceptos, es decir la cantidad total de articulos que tuvieron un movimiento
+
+#### id_lugar
+Cada movimiento sera realizado en un determinado lugar por lo que se necesitara el identificador unico de dicho lugar para tener establecido donde se realizo dicho movimiento
+
+#### fecha
+Cada movimiento ademas de ser realizado en un lugar determinado contara con una fecha especifica en la que se realizo, las fechas de estos movimientos empezaran desde la implementacion del sistema en la tienda.
+
+#### hora
+Ademas de la fecha tambien se contara con una hora en la cual se realizo el movimiento, esto para llevar un control mas exaustivo y preciso de cada movimiento.
 
 Cuando se realiza una `VENTA` se realizará una `FACTURA`, ya sea a publico en general o a un `CLIENTE` en especifico, debemos realizar un registro de cada venta, esta operacion es de ingreso, si es en mostrador o a domicilio.
 
